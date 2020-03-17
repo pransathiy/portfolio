@@ -62,3 +62,6 @@ build-storybook/
 config.json
 *-temp.studio
 .firebase
+
+# OSX
+.DS_STORE
