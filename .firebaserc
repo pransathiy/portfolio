@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "hamishw-e3b37"
+    "default": "pran-c43b2"
   },
   "targets": {
-    "hamishw-e3b37": {
+    "pran-c43b2": {
       "hosting": {
         "portfolio": [
-          "hamishw-e3b37"
+          "pran-c43b2"
         ],
         "storybook": [
           "portfolio-storybook"
