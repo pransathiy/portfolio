@@ -1,34 +1,46 @@
-import React, { Fragment, memo } from 'react';
-import styled, { css } from 'styled-components/macro';
-import { Transition } from 'react-transition-group';
-import { Link } from 'components/Link';
-import Anchor from 'components/Anchor';
-import { RouterButton } from 'components/Button';
-import DecoderText from 'components/DecoderText';
-import Divider from 'components/Divider';
-import ProgressiveImage from 'components/ProgressiveImage';
-import Svg from 'components/Svg';
-import ProfileImg from 'assets/profile.jpg';
-import ProfileImgLarge from 'assets/profile-large.jpg';
-import ProfileImgPlaceholder from 'assets/profile-placeholder.jpg';
-import { sectionPadding } from 'utils/style';
-import { reflow } from 'utils/transition';
+import React, { Fragment, memo } from "react";
+import styled, { css } from "styled-components/macro";
+import { Transition } from "react-transition-group";
+import { RouterButton } from "components/Button";
+import DecoderText from "components/DecoderText";
+import Divider from "components/Divider";
+import ProgressiveImage from "components/ProgressiveImage";
+import Svg from "components/Svg";
+import ProfileImg from "assets/profile.jpg";
+import ProfileImgLarge from "assets/profile-large.jpg";
+import ProfileImgPlaceholder from "assets/profile-placeholder.jpg";
+import { sectionPadding } from "utils/style";
+import { reflow } from "utils/transition";
 
 const ProfileText = ({ status, titleId }) => (
   <Fragment>
     <ProfileTitle status={status} id={titleId}>
-      <DecoderText
-        text="Hi there"
-        start={status !== 'exited'}
-        offset={140}
-      />
+      <DecoderText text="Hi there" start={status !== "exited"} offset={140} />
     </ProfileTitle>
+    <ProfileDescription status={status}>I'm Pran.</ProfileDescription>
     <ProfileDescription status={status}>
-      I’m Hamish, currently I live in Sydney working as a senior product designer at <Anchor href="https://www.qwilr.com" target="_blank">Qwilr</Anchor>. My projects include UX design, UI animations, and icon illustration. Being comfortable with code allows me to rapidly prototype and validate experiences.
+      I believe in building digital and physical experiences with a function
+      over form principle.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my spare time I like to practice Brazilian Jiu Jitsu, play video games, and <Anchor as={Link} to="/projects/volkihar-knight">make mods</Anchor>. I’m always down for hearing about new projects, so feel free to drop me a line.
+      I strive to design experiences that contribute to building a future that
+      empowers and embraces accessibility, inclusivity, and sustainability.
     </ProfileDescription>
+    <ProfileDescription status={status}>
+      I spent a number of years in Tokyo, Japan where my love for all things
+      design and photography really blossomed.
+    </ProfileDescription>
+    <ProfileDescription status={status}>
+      I enjoy reading, writing, and maintaining an active lifestyle through
+      baseball, boxing, weightlifting, and surfing.
+    </ProfileDescription>
+    <ProfileDescription status={status}>
+      I’m an advocate for Crohn’s Disease and colon cancer awareness, engaging
+      with my local communities to address stigmas faced by people who suffer
+      from these debilitating conditions through one-on-one coffee chats,
+      events, and seminars.
+    </ProfileDescription>
+    <ProfileDescription status={status}>ESFJ-A.</ProfileDescription>
   </Fragment>
 );
 
@@ -43,13 +55,31 @@ function Profile(props) {
       aria-labelledby={titleId}
       tabIndex={-1}
     >
-      <Transition
-        in={visible}
-        timeout={0}
-        onEnter={reflow}
-      >
+      <Transition in={visible} timeout={0} onEnter={reflow}>
         {status => (
           <ProfileContent>
+            <ProfileColumn>
+              <ProfileTag aria-hidden>
+                <Divider
+                  notchWidth="64px"
+                  notchHeight="8px"
+                  collapsed={status !== "entered"}
+                  collapseDelay={1000}
+                />
+                <ProfileTagText status={status}>About Me</ProfileTagText>
+              </ProfileTag>
+              <ProfileImage
+                reveal
+                delay={100}
+                visible={visible}
+                placeholder={ProfileImgPlaceholder}
+                srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
+                sizes={`(max-width: ${props =>
+                  props.theme.mobile}px) 100vw, 480px`}
+                alt="Me at the Torii (gate) on Miyajima, an island off the coast of Hiroshima in Japan"
+              />
+              <ProfileSvg icon="profile" status={status} />
+            </ProfileColumn>
             <ProfileColumn>
               <ProfileText status={status} titleId={titleId} />
               <ProfileButton
@@ -61,33 +91,12 @@ function Profile(props) {
                 Send me a message
               </ProfileButton>
             </ProfileColumn>
-            <ProfileColumn>
-              <ProfileTag aria-hidden>
-                <Divider
-                  notchWidth="64px"
-                  notchHeight="8px"
-                  collapsed={status !== 'entered'}
-                  collapseDelay={1000}
-                />
-                <ProfileTagText status={status}>About Me</ProfileTagText>
-              </ProfileTag>
-              <ProfileImage
-                reveal
-                delay={100}
-                visible={visible}
-                placeholder={ProfileImgPlaceholder}
-                srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
-                sizes={`(max-width: ${props => props.theme.mobile}px) 100vw, 480px`}
-                alt="Me at the Torii (gate) on Miyajima, an island off the coast of Hiroshima in Japan"
-              />
-              <ProfileSvg icon="profile" status={status} />
-            </ProfileColumn>
           </ProfileContent>
         )}
       </Transition>
     </ProfileSection>
   );
-};
+}
 
 const ProfileSection = styled.section`
   width: 100vw;
@@ -127,7 +136,8 @@ const ProfileSection = styled.section`
     overflow-x: hidden;
   }
 
-  @media (max-width: ${props => props.theme.mobile}px), (max-height: ${props => props.theme.mobile}px) {
+  @media (max-width: ${props => props.theme.mobile}px),
+    (max-height: ${props => props.theme.mobile}px) {
     padding-right: ${props => props.theme.spacingOuter.mobile}px;
     padding-left: ${props => props.theme.spacingOuter.mobile}px;
   }
@@ -173,7 +183,7 @@ const ProfileTitle = styled.h2`
   font-weight: 500;
   margin-bottom: 40px;
   white-space: nowrap;
-  opacity: ${props => props.status === 'entered' ? 1 : 0};
+  opacity: ${props => (props.status === "entered" ? 1 : 0)};
   transition: opacity 0.8s ease 0.4s;
   color: ${props => props.theme.colorTitle};
 
@@ -195,9 +205,11 @@ const ProfileDescription = styled.p`
   opacity: 0;
   transition: opacity 0.8s ease 0.6s;
 
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      opacity: 1;
+    `}
 
   @media (max-width: ${props => props.theme.mobile}px) {
     font-size: 18px;
@@ -228,10 +240,12 @@ const ProfileTagText = styled.div`
   transition-duration: 0.4s;
   transition-delay: 1.3s;
 
-  ${props => props.status === 'entered' && css`
-    transform: translateX(0);
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      transform: translateX(0);
+      opacity: 1;
+    `}
 `;
 
 const ProfileImage = styled(ProgressiveImage)`
@@ -247,7 +261,7 @@ const ProfileSvg = styled(Svg)`
   transform: translate3d(50%, -80px, 0);
   height: 620px;
   z-index: 32;
-  opacity: ${props => props.status === 'entered' ? 1 : 0};
+  opacity: ${props => (props.status === "entered" ? 1 : 0)};
   transition: opacity 0.4s ease 0.6s;
   fill: ${props => props.theme.colorTitle};
 
@@ -264,9 +278,11 @@ const ProfileButton = styled(RouterButton)`
   opacity: 0;
   transition: opacity 0.8s ease 0.6s;
 
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 export default memo(Profile);

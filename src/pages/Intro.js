@@ -1,14 +1,22 @@
-import React, { Suspense, lazy, useMemo, useEffect, useState, Fragment, memo } from 'react';
-import styled, { css, keyframes, useTheme } from 'styled-components/macro';
-import { TransitionGroup, Transition } from 'react-transition-group';
-import { AnimFade, rgba, sectionPadding } from 'utils/style';
-import DecoderText from 'components/DecoderText';
-import Svg from 'components/Svg';
-import { useInterval, usePrevious, useWindowSize, useParallax } from 'hooks';
-import { reflow } from 'utils/transition';
-import prerender from 'utils/prerender';
+import React, {
+  Suspense,
+  lazy,
+  useMemo,
+  useEffect,
+  useState,
+  Fragment,
+  memo
+} from "react";
+import styled, { css, keyframes, useTheme } from "styled-components/macro";
+import { TransitionGroup, Transition } from "react-transition-group";
+import { AnimFade, rgba, sectionPadding } from "utils/style";
+import DecoderText from "components/DecoderText";
+import Svg from "components/Svg";
+import { useInterval, usePrevious, useWindowSize, useParallax } from "hooks";
+import { reflow } from "utils/transition";
+import prerender from "utils/prerender";
 
-const DisplacementSphere = lazy(() => import('components/DisplacementSphere'));
+const DisplacementSphere = lazy(() => import("components/DisplacementSphere"));
 
 function Intro(props) {
   const theme = useTheme();
@@ -16,15 +24,28 @@ function Intro(props) {
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const windowSize = useWindowSize();
   const prevTheme = usePrevious(theme);
-  const introLabel = useMemo(() => [disciplines.slice(0, -1).join(', '), disciplines.slice(-1)[0]].join(', and '), [disciplines]);
-  const currentDisciplines = useMemo(() => disciplines.filter((item, index) => index === disciplineIndex), [disciplineIndex, disciplines]);
+  const introLabel = useMemo(
+    () =>
+      [disciplines.slice(0, -1).join(", "), disciplines.slice(-1)[0]].join(
+        ", and "
+      ),
+    [disciplines]
+  );
+  const currentDisciplines = useMemo(
+    () => disciplines.filter((item, index) => index === disciplineIndex),
+    [disciplineIndex, disciplines]
+  );
   const titleId = `${id}-title`;
   const offset = useParallax(-0.6);
 
-  useInterval(() => {
-    const index = (disciplineIndex + 1) % disciplines.length;
-    setDisciplineIndex(index);
-  }, 5000, theme.id);
+  useInterval(
+    () => {
+      const index = (disciplineIndex + 1) % disciplines.length;
+      setDisciplineIndex(index);
+    },
+    5000,
+    theme.id
+  );
 
   useEffect(() => {
     if (prevTheme && prevTheme.id !== theme.id) {
@@ -49,22 +70,36 @@ function Intro(props) {
       >
         {status => (
           <Fragment>
-            {!prerender &&
+            {!prerender && (
               <Suspense fallback={null}>
-                <DisplacementSphere style={{ transform: `translate3d(0, ${offset}px, 0)`, position: 'fixed' }} />
+                <DisplacementSphere
+                  style={{
+                    transform: `translate3d(0, ${offset}px, 0)`,
+                    position: "fixed"
+                  }}
+                />
               </Suspense>
-            }
+            )}
             <IntroText>
               <IntroName status={status} id={titleId}>
-                <DecoderText text="Hamish Williams" start={!prerender} offset={120} />
+                <DecoderText
+                  text="Pran Sathiyananthan"
+                  start={!prerender}
+                  offset={120}
+                />
               </IntroName>
               <IntroTitle>
-                <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
+                <IntroTitleLabel>{`Experience Designer + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
-                  <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
-                  <IntroTitleLine status={status} />
+                  <IntroTitleWord status={status} delay="0.2s">
+                    Experience Designer
+                  </IntroTitleWord>
+                  {/* <IntroTitleLine status={status} /> */}
                 </IntroTitleRow>
-                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                <TransitionGroup
+                  component={IntroTitleRow}
+                  prerender={prerender}
+                >
                   {currentDisciplines.map((item, index) => (
                     <Transition
                       appear
@@ -87,26 +122,26 @@ function Intro(props) {
                 </TransitionGroup>
               </IntroTitle>
             </IntroText>
-            {windowSize.width > theme.tablet &&
+            {windowSize.width > theme.tablet && (
               <MemoizedScrollIndicator
                 isHidden={scrollIndicatorHidden}
                 status={status}
               />
-            }
-            {windowSize.width <= theme.tablet &&
+            )}
+            {windowSize.width <= theme.tablet && (
               <MemoizedMobileScrollIndicator
                 isHidden={scrollIndicatorHidden}
                 status={status}
               >
                 <Svg icon="arrowDown" />
               </MemoizedMobileScrollIndicator>
-            }
+            )}
           </Fragment>
         )}
       </Transition>
     </IntroContent>
   );
-};
+}
 
 const IntroContent = styled.section`
   height: 100vh;
@@ -152,13 +187,19 @@ const IntroName = styled.h1`
   line-height: 1;
   opacity: 0;
 
-  ${props => props.status === 'entering' && css`
-    animation: ${css`${AnimFade} 0.6s ease 0.2s forwards`};
-  `}
+  ${props =>
+    props.status === "entering" &&
+    css`
+      animation: ${css`
+        ${AnimFade} 0.6s ease 0.2s forwards
+      `};
+    `}
 
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      opacity: 1;
+    `}
 
   @media (min-width: ${props => props.theme.desktop}px) {
     font-size: 28px;
@@ -186,10 +227,10 @@ const IntroName = styled.h1`
 const IntroTitle = styled.h2`
   display: flex;
   flex-direction: column;
-  font-size: 100px;
+  font-size: 72px;
   margin: 0;
   letter-spacing: -0.005em;
-  font-weight: ${props => props.theme.id === 'light' ? 600 : 500};
+  font-weight: ${props => (props.theme.id === "light" ? 600 : 500)};
 
   @media (min-width: ${props => props.theme.desktop}px) {
     font-size: 120px;
@@ -225,9 +266,11 @@ const IntroTitleRow = styled.span`
   align-items: center;
   position: relative;
 
-  ${props => props.prerender && css`
-    opacity: 0;
-  `}
+  ${props =>
+    props.prerender &&
+    css`
+      opacity: 0;
+    `}
 `;
 
 const AnimTextReveal = props => keyframes`
@@ -271,21 +314,27 @@ const IntroTitleWord = styled.span`
   color: ${props => rgba(props.theme.colorTitle, 0)};
   transition: opacity 0.5s ease 0.4s;
 
-  ${props => props.status === 'entering' && css`
-    animation-name: ${AnimTextReveal(props)};
-  `}
+  ${props =>
+    props.status === "entering" &&
+    css`
+      animation-name: ${AnimTextReveal(props)};
+    `}
 
-  ${props => props.status === 'entered' && css`
-    color: ${props.theme.colorTitle};
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      color: ${props.theme.colorTitle};
+    `}
 
-  ${props => props.status === 'exiting' && css`
-    color: ${props.theme.colorTitle};
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    z-index: 0;
-  `}
+  ${props =>
+    props.status === "exiting" &&
+    css`
+      color: ${props.theme.colorTitle};
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      z-index: 0;
+    `}
 
   &::after {
     content: '';
@@ -304,32 +353,40 @@ const IntroTitleWord = styled.span`
     left: 0;
     z-index: 1;
 
-    ${props => props.status === 'entering' && css`
-      animation-name: ${AnimTextRevealMask};
-    `}
+    ${props =>
+      props.status === "entering" &&
+      css`
+        animation-name: ${AnimTextRevealMask};
+      `}
 
-    ${props => props.status === 'entered' && css`
-      opacity: 1;
-      transform: scaleX(0);
-      transform-origin: right;
-    `}
+    ${props =>
+      props.status === "entered" &&
+      css`
+        opacity: 1;
+        transform: scaleX(0);
+        transform-origin: right;
+      `}
   }
 
-  ${props => props.delay && css`
-    animation-delay: ${props.delay};
-
-    &::after {
+  ${props =>
+    props.delay &&
+    css`
       animation-delay: ${props.delay};
-    }
-  `}
 
-  ${props => props.plus && css`
-    &::before {
-      content: '+';
-      margin-right: 10px;
-      opacity: 0.4;
-    }
-  `}
+      &::after {
+        animation-delay: ${props.delay};
+      }
+    `}
+
+  ${props =>
+    props.plus &&
+    css`
+      &::before {
+        content: "x";
+        margin-right: 10px;
+        opacity: 0.4;
+      }
+    `}
 `;
 
 const AnimLineIntro = keyframes`
@@ -344,7 +401,7 @@ const AnimLineIntro = keyframes`
 `;
 
 const IntroTitleLine = styled.span`
-  content: '';
+  content: "";
   height: 2px;
   background: ${props => rgba(props.theme.colorText, 0.3)};
   width: 120%;
@@ -357,14 +414,18 @@ const IntroTitleLine = styled.span`
   transform-origin: left;
   opacity: 0;
 
-  ${props => props.status === 'entering' && css`
-    animation-name: ${AnimLineIntro};
-  `}
+  ${props =>
+    props.status === "entering" &&
+    css`
+      animation-name: ${AnimLineIntro};
+    `}
 
-  ${props => props.status === 'entered' && css`
-    transform: scaleX(1);
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      transform: scaleX(1);
+      opacity: 1;
+    `}
 `;
 
 const AnimScrollIndicator = keyframes`
@@ -392,11 +453,11 @@ const ScrollIndicator = styled.div`
   transition-property: opacity, transform;
   transition-duration: 0.6s;
   transition-timing-function: ease;
-  opacity: ${props => props.status === 'entered' && !props.isHidden ? 1 : 0};
-  transform: translate3d(0, ${props => props.isHidden ? '20px' : 0}, 0);
+  opacity: ${props => (props.status === "entered" && !props.isHidden ? 1 : 0)};
+  transform: translate3d(0, ${props => (props.isHidden ? "20px" : 0)}, 0);
 
   &::before {
-    content: '';
+    content: "";
     height: 7px;
     width: 2px;
     background: ${props => rgba(props.theme.colorText, 0.4)};
@@ -405,7 +466,9 @@ const ScrollIndicator = styled.div`
     top: 6px;
     left: 50%;
     transform: translateX(-1px);
-    animation: ${css`${AnimScrollIndicator} 2s ease infinite`};
+    animation: ${css`
+      ${AnimScrollIndicator} 2s ease infinite
+    `};
   }
 
   @media ${props => props.theme.mobileLS} {
@@ -428,13 +491,13 @@ const AnimMobileScrollIndicator = keyframes`
 const MobileScrollIndicator = styled.div`
   position: fixed;
   bottom: 20px;
-  opacity: ${props => props.status === 'entered' && !props.isHidden ? 1 : 0};
-  transform: translate3d(0, ${props => props.isHidden ? '20px' : 0}, 0);
+  opacity: ${props => (props.status === "entered" && !props.isHidden ? 1 : 0)};
+  transform: translate3d(0, ${props => (props.isHidden ? "20px" : 0)}, 0);
   animation-name: ${AnimMobileScrollIndicator};
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
   transition-property: opacity, transform;
-  transition-timing-function: cubic-bezier(.8,.1,.27,1);
+  transition-timing-function: cubic-bezier(0.8, 0.1, 0.27, 1);
   transition-duration: 0.4s;
 
   @media ${props => props.theme.mobileLS}px {
