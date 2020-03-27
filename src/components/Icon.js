@@ -2,6 +2,8 @@ import React from 'react';
 import { ReactComponent as IconTwitter } from 'assets/icons/twitter.svg';
 import { ReactComponent as IconDribbble } from 'assets/icons/dribbble.svg';
 import { ReactComponent as IconGithub } from 'assets/icons/github.svg';
+import { ReactComponent as IconLinkedin} from "assets/icons/linkedin.svg";
+import { ReactComponent as IconMedium} from "assets/icons/medium.svg";
 import { ReactComponent as IconEmail } from 'assets/icons/email.svg';
 import { ReactComponent as IconMenu } from 'assets/icons/menu.svg';
 import { ReactComponent as IconArrowRight } from 'assets/icons/arrow-right.svg';
@@ -15,10 +17,12 @@ import { ReactComponent as IconPause } from 'assets/icons/pause.svg';
 
 const icons = {
   twitter: IconTwitter,
+  linkedin: IconLinkedin,
   dribbble: IconDribbble,
   github: IconGithub,
   email: IconEmail,
   menu: IconMenu,
+  medium: IconMedium,
   arrowRight: IconArrowRight,
   chevronRight: IconChevronRight,
   close: IconClose,

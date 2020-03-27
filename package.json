@@ -1,7 +1,7 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "homepage": "https://hamishw.com",
+  "homepage": "https://pran-sathiy.com",
   "private": true,
   "devDependencies": {
     "@storybook/addon-a11y": "^5.3.14",

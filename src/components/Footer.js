@@ -1,12 +1,14 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import Anchor from 'components/Anchor';
-import { rgba, sectionPadding } from 'utils/style';
+import React from "react";
+import styled from "styled-components/macro";
+import Anchor from "components/Anchor";
+import { rgba, sectionPadding } from "utils/style";
 
 const Footer = () => (
   <FooterContainer role="contentinfo">
-    <FooterDate>{`© ${new Date().getFullYear()}`} Hamish Williams.</FooterDate>
-    <Anchor secondary href="/humans.txt">Crafted by yours truly</Anchor>
+    <FooterDate>{`© ${new Date().getFullYear()}`} Pran Sathiy.</FooterDate>
+    <Anchor secondary href="/humans.txt">
+      Crafted by yours truly
+    </Anchor>
   </FooterContainer>
 );
 

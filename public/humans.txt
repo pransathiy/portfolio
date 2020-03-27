@@ -1,7 +1,4 @@
 __  __  __
-\ \ \ \ \/
- \ \/\ \
-  \/  \/
 
 The humans.txt file explains the team, technology,
 and graphic assets behind this site humanstxt.org.
@@ -10,15 +7,15 @@ _______________________________________________________________________________
 
 DESIGNER | デザイナー
 
-Hamish Williams
+Pran Sathiy
 Hand crafted design & web development
 
 Design tools:
 Figma
 Photoshop
 
-twitter.com/hamishmw
-github.com/hamishmw
+twitter.com/pran-sathiy
+github.com/pransathiy
 
 _______________________________________________________________________________
 

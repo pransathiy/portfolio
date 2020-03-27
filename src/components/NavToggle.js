@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components/macro';
-import Icon from './Icon';
-import { Button } from 'components/Button';
+import React from "react";
+import styled, { css } from "styled-components/macro";
+import Icon from "./Icon";
+import { Button } from "components/Button";
 
 const NavToggle = ({ menuOpen, ...rest }) => (
   <NavToggleButton
@@ -22,13 +22,14 @@ const NavToggleButton = styled(Button)`
   && {
     position: fixed;
     top: ${props => props.theme.spacingOuter.mobile}px;
-    right: ${props => props.theme.spacingOuter.mobile}px;
+    left: ${props => props.theme.spacingOuter.mobile}px;
     width: 48px;
     height: 48px;
     z-index: 1024;
     display: none;
 
-    @media (max-width: ${props => props.theme.mobile}px), (max-height: ${props => props.theme.mobile}px) {
+    @media (max-width: ${props => props.theme.mobile}px),
+      (max-height: ${props => props.theme.mobile}px) {
       display: flex;
     }
   }
@@ -54,23 +55,31 @@ const NavToggleIcon = styled(Icon)`
   width: 32px;
   height: 32px;
 
-  ${props => props.icon === 'close' && css`
-    transition-delay: 0s;
-    transform: rotate(-45deg);
-    opacity: 0;
-  `}
+  ${props =>
+    props.icon === "close" &&
+    css`
+      transition-delay: 0s;
+      transform: rotate(-45deg);
+      opacity: 0;
+    `}
 
-  ${props => props.open && props.icon === 'close' && css`
-    transition-delay: 0.1s;
-    transform: rotate(0deg);
-    opacity: 1;
-  `}
+  ${props =>
+    props.open &&
+    props.icon === "close" &&
+    css`
+      transition-delay: 0.1s;
+      transform: rotate(0deg);
+      opacity: 1;
+    `}
 
-  ${props => props.open && props.icon === 'menu' && css`
-    transition-delay: 0s;
-    transform: rotate(45deg);
-    opacity: 0;
-  `}
+  ${props =>
+    props.open &&
+    props.icon === "menu" &&
+    css`
+      transition-delay: 0s;
+      transform: rotate(45deg);
+      opacity: 0;
+    `}
 `;
 
 export default NavToggle;

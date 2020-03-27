@@ -1,32 +1,44 @@
-import React, { lazy, Suspense, useEffect, createContext, useReducer, Fragment } from 'react';
-import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
-import { BrowserRouter, Switch, Route, useLocation } from 'react-router-dom';
-import { Transition, TransitionGroup, config as transitionConfig } from 'react-transition-group';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import Header from 'components/Header';
-import { theme } from 'app/theme';
-import { useLocalStorage, usePrefersReducedMotion } from 'hooks';
-import GothamBook from 'assets/fonts/gotham-book.woff2';
-import GothamMedium from 'assets/fonts/gotham-medium.woff2';
-import { initialState, reducer } from 'app/reducer';
-import { reflow } from 'utils/transition';
-import prerender from 'utils/prerender';
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  createContext,
+  useReducer,
+  Fragment
+} from "react";
+import styled, {
+  createGlobalStyle,
+  ThemeProvider,
+  css
+} from "styled-components/macro";
+import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
+import {
+  Transition,
+  TransitionGroup,
+  config as transitionConfig
+} from "react-transition-group";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import Header from "components/Header";
+import { theme } from "app/theme";
+import { useLocalStorage, usePrefersReducedMotion } from "hooks";
+import GothamBook from "assets/fonts/gotham-book.woff2";
+import GothamMedium from "assets/fonts/gotham-medium.woff2";
+import { initialState, reducer } from "app/reducer";
+import { reflow } from "utils/transition";
+import prerender from "utils/prerender";
 
-const Home = lazy(() => import('screens/Home'));
-const Contact = lazy(() => import('screens/Contact'));
-const ProjectSPR = lazy(() => import('screens/ProjectSPR'));
-const ProjectSlice = lazy(() => import('screens/ProjectSlice'));
-const ProjectVolkihar = lazy(() => import('screens/ProjectVolkihar'));
-// const Articles = lazy(() => import('screens/Articles'));
-const NotFound = lazy(() => import('screens/404'));
+const Home = lazy(() => import("pages/Home"));
+const Contact = lazy(() => import("pages/Contact"));
+const ProjectNetflixLive = lazy(() => import("pages/ProjectNetflixLive"));
+const ProjectSlice = lazy(() => import("pages/ProjectSlice"));
+const NotFound = lazy(() => import("pages/404"));
 
 export const AppContext = createContext();
 export const TransitionContext = createContext();
 
 const consoleMessage = `
 __  __  __
-\u005C \u005C \u005C \u005C \u005C\u2215\n \u005C \u005C\u2215\u005C \u005C\n  \u005C\u2215  \u005C\u2215
-\n\nTaking a peek huh? Check out the source code: https://github.com/HamishMW/portfolio\n\n
+Taking a peek huh? Check out the source code: https://github.com/pransathiy/portfolio
 `;
 
 export const fontStyles = `
@@ -46,7 +58,7 @@ export const fontStyles = `
 `;
 
 function App() {
-  const [storedTheme] = useLocalStorage('theme', 'dark');
+  const [storedTheme] = useLocalStorage("theme", "dark");
   const [state, dispatch] = useReducer(reducer, initialState);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { currentTheme } = state;
@@ -61,11 +73,11 @@ function App() {
 
   useEffect(() => {
     if (!prerender) console.info(consoleMessage);
-    window.history.scrollRestoration = 'manual';
+    window.history.scrollRestoration = "manual";
   }, []);
 
   useEffect(() => {
-    dispatch({ type: 'setTheme', value: theme[storedTheme] });
+    dispatch({ type: "setTheme", value: theme[storedTheme] });
   }, [storedTheme]);
 
   return (
@@ -88,7 +100,7 @@ function AppRoutes() {
   return (
     <Fragment>
       <Helmet>
-        <link rel="canonical" href={`https://hamishw.com${pathname}`} />
+        <link rel="canonical" href={`https://pran-sathiy.com${pathname}`} />
         <link rel="preload" href={GothamBook} as="font" crossorigin="" />
         <link rel="preload" href={GothamMedium} as="font" crossorigin="" />
         <style>{fontStyles}</style>
@@ -102,22 +114,19 @@ function AppRoutes() {
         id="MainContent"
         role="main"
       >
-        <Transition
-          key={pathname}
-          timeout={300}
-          onEnter={reflow}
-        >
+        <Transition key={pathname} timeout={300} onEnter={reflow}>
           {status => (
             <TransitionContext.Provider value={{ status }}>
-              <AppPage status={status} >
+              <AppPage status={status}>
                 <Suspense fallback={<Fragment />}>
                   <Switch location={location}>
                     <Route exact path="/" component={Home} />
                     <Route path="/contact" component={Contact} />
-                    <Route path="/projects/smart-sparrow" component={ProjectSPR} />
+                    <Route
+                      path="/projects/netflix-live"
+                      component={ProjectNetflixLive}
+                    />
                     <Route path="/projects/slice" component={ProjectSlice} />
-                    <Route path="/projects/volkihar-knight" component={ProjectVolkihar} />
-                    {/* <Route path="/articles" component={Articles} /> */}
                     <Route component={NotFound} />
                   </Switch>
                 </Suspense>
@@ -187,15 +196,19 @@ const AppPage = styled.div`
   grid-row: 1;
   transition: opacity 0.3s ease;
 
-  ${props => (props.status === 'exiting' || props.status === 'entering') && css`
-    opacity: 0;
-  `}
+  ${props =>
+    (props.status === "exiting" || props.status === "entering") &&
+    css`
+      opacity: 0;
+    `}
 
-  ${props => props.status === 'entered' && css`
-    transition-duration: 0.5s;
-    transition-delay: 0.2s;
-    opacity: 1;
-  `}
+  ${props =>
+    props.status === "entered" &&
+    css`
+      transition-duration: 0.5s;
+      transition-delay: 0.2s;
+      opacity: 1;
+    `}
 `;
 
 const SkipToMain = styled.a`

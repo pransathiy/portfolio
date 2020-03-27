@@ -1,6 +1,6 @@
 {
   "name": "functions",
-  "description": "Cloud Functions for hamishw.com",
+  "description": "Cloud Functions for pran-sathiy.com",
   "scripts": {
     "lint": "eslint .",
     "serve": "firebase serve --only functions",
@@ -22,7 +22,7 @@
     "eslint-plugin-promise": "^4.2.1"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "private": true
 }
